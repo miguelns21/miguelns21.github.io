@@ -13,4 +13,9 @@ var store = [{
         "excerpt":"Importar Usuarios Nuestro primer script “importar_usuario.py” tiene como misión importar los ficheros CSV que el administrador suba a la carpeta Clientes_CSV de nuestra intranet. Los pasos que sigue en script son: Crea el usuario en NextCloud. Manda un email a dicho usuario notificándole su usuario y contraseña aleatoria que el...","categories": ["Script"],
         "tags": ["Intranet","Nextcloud"],
         "url": "http://localhost:4000/creacion-intranet-nextcloud-2/",
-        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png"}]
+        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png"},{
+        "title": "Intranet/Nextcloud (Parte 3/4)",
+        "excerpt":"Repartir Facturas Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan. La lógica debe ser que el nombre del fichero a repartir comience con el...","categories": ["Script"],
+        "tags": ["Intranet","Nextcloud"],
+        "url": "http://localhost:4000/creacion-intranet-nextcloud-3/",
+        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.42.27.png"}]
