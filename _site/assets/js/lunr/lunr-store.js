@@ -69,8 +69,13 @@ var store = [{
         "tags": ["Pentesting","eWPTXv2","Web Exploiting","Web Penetration Testing","Examen"],
         "url": "http://localhost:4000/experiencia-eWPTx/",
         "teaser":"http://localhost:4000/assets/images/eWPTxv2/eWPTxv2.png"},{
-        "title": "Creando una antena casera direccional de largo alcance",
+        "title": "Creando una antena casera direccional de largo alcance1",
         "excerpt":"¿Cómo crear una antena casera de largo alcance? Hoy aprenderás a crear una antena casera para que tu nivel de Hack llegue a distancias inimaginables. Empecemos por el principio, ¿por qué elementos está compuesta la antena? Parecerá una broma, pero no… es una lata de Pringles. Estas latas pueden convertirse...","categories": ["WiFi","Utilidades","Casero"],
         "tags": ["Pentesting","OSWP","Antena Casera"],
         "url": "http://localhost:4000/antena-casera-largo-alcance/",
-        "teaser":"http://localhost:4000/assets/images/antenacasera/antena.jpg"}]
+        "teaser":"http://localhost:4000/assets/images/antenacasera/antena.jpg"},{
+        "title": "Creación de Intranet/Nextcloud",
+        "excerpt":"Hace un tiempo desarrollé unos scripts en Python para cubrir una necesidad que puede surgir en una empresa pequeña con pocos recursos como es la de dotar a sus propios clientes de un espacio donde éstos puedan consultar sus facturas y descargarlas. Acciones Los scripts que funcionarán prácticamente en cualquier...","categories": ["Script"],
+        "tags": ["Intranet","Nextcloud"],
+        "url": "http://localhost:4000/creacion-intranet-nextcloud/",
+        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png"}]
