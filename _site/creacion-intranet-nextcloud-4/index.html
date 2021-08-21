@@ -9,40 +9,40 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>            Intranet/Nextcloud (Parte 3/4) - Miguelns21      Cuaderno de bitácora      </title>
-<meta name="description" content="Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan.">
+<!-- begin _includes/seo.html --><title>            Intranet/Nextcloud (Parte 4/4) - Miguelns21      Cuaderno de bitácora      </title>
+<meta name="description" content="Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura.">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="es_ES">
 <meta property="og:site_name" content="Miguelns21 | Cuaderno de bitácora">
-<meta property="og:title" content="Intranet/Nextcloud (Parte 3/4)">
-<meta property="og:url" content="http://localhost:4000/creacion-intranet-nextcloud-3/">
+<meta property="og:title" content="Intranet/Nextcloud (Parte 4/4)">
+<meta property="og:url" content="http://localhost:4000/creacion-intranet-nextcloud-4/">
 
 
-  <meta property="og:description" content="Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan.">
-
-
-
-  <meta property="og:image" content="http://localhost:4000/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.42.27.png">
+  <meta property="og:description" content="Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura.">
 
 
 
-
-
-  <meta property="article:published_time" content="2021-08-17T00:00:00+02:00">
+  <meta property="og:image" content="http://localhost:4000/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png">
 
 
 
 
 
-  
+  <meta property="article:published_time" content="2021-08-18T00:00:00+02:00">
+
+
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/creacion-intranet-nextcloud-3/">
+
+<link rel="canonical" href="http://localhost:4000/creacion-intranet-nextcloud-4/">
 
 
 
@@ -166,7 +166,7 @@
         <span class="sep">/</span>
       
       
-        <li class="current">Intranet/Nextcloud (Parte 3/4)</li>
+        <li class="current">Intranet/Nextcloud (Parte 4/4)</li>
       
     
   </ol>
@@ -303,15 +303,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Intranet/Nextcloud (Parte 3/4)">
-    <meta itemprop="description" content="Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan.">
-    <meta itemprop="datePublished" content="August 17, 2021">
+    <meta itemprop="headline" content="Intranet/Nextcloud (Parte 4/4)">
+    <meta itemprop="description" content="Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura.">
+    <meta itemprop="datePublished" content="August 18, 2021">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Intranet/Nextcloud (Parte 3/4)
+          <h1 id="page-title" class="page__title" itemprop="headline">Intranet/Nextcloud (Parte 4/4)
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -329,7 +329,7 @@
         
         <p class="page__meta">
           
-            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-08-17T00:00:00+02:00">August 17, 2021 </time>&emsp;
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-08-18T00:00:00+02:00">August 18, 2021 </time>&emsp;
           
           <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
 
@@ -339,35 +339,24 @@
   menos de 1 minuto(s) de lectura
 
         </p>
-        <p align="center">
-<img src="/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png" />
-</p>
+        <h1 id="consideraciones-finales">Consideraciones finales</h1>
 
-<h1 id="repartir-facturas">Repartir Facturas</h1>
+<p>Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura.</p>
 
-<p>Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan.</p>
+<p>Nuestros scripts incorporan la salida de todos los procesos que llevan a cabo a un fichero que se situará en la raíz del la zona del usuario administrador.</p>
 
-<p>La lógica debe ser que el nombre del fichero a repartir comience con el código del usuario en nuestra intranet.</p>
+<p>Este fichero de log registra todos los movimientos que el script ha llevado a cabo o no por distintos motivos. Los principales controles que registra son:</p>
 
-<p>Por ejemplo: la factura “1000-noviembre.pdf” moverá dicho fichero a la zona de usuario con código 1000.</p>
+<ol>
+  <li>Incorrecto formato del fichero de clientes CSV</li>
+  <li>Creación de usuario correcta o no.</li>
+  <li>Factura repartida a qué usuario.</li>
+  <li>etc.</li>
+</ol>
 
-<p>El administrador puede crear una estructura de carpetas en su carpeta “Reparto_Factura“ que se replicará a la zona del usuario. Por ejemplo:</p>
+<p>Espero que estos scripts puedan servir de base o ayudar al desarrollo de una versión adaptada a las necesidades de cualquier pequeña empresa.</p>
 
-<p align="center">
-<img src="/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.42.27.png" />
-</p>
-
-<h2 id="cron">Cron</h2>
-
-<p>Al igual que el script de creación de usuario, nuestro script de reparto se debe programar con la frecuencia estimada por el administrador de la plataforma atendiendo a sus necesidades. Esto es, si las facturas se suben con poca frecuencia, no tiene sentido establecer la programación muy frecuentemente.</p>
-
-<p>En el caso de Hostens, el panel de control nos ofrece un asistente para los trabajos de cron como se muestra a continuación:</p>
-
-<p align="center">
-<img src="/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.48.30.png" />
-</p>
-
-<p>Fichero de creación de usuarios programado cada 5 minutos.</p>
+<p>Los scripts están disponibles en mi <a href="https://github.com/miguelns21/NextIntranet">Github</a>.</p>
 
         
       </section>
@@ -420,7 +409,7 @@
 
 
         
-          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Actualizado:</strong> <time datetime="2021-08-17T00:00:00+02:00">August 17, 2021</time></p>
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Actualizado:</strong> <time datetime="2021-08-18T00:00:00+02:00">August 18, 2021</time></p>
         
       </footer>
 
@@ -429,12 +418,11 @@
       
   <nav class="pagination">
     
-      <a href="/creacion-intranet-nextcloud-2/" class="pagination--pager" title="Intranet/Nextcloud (Parte 2/4)
+      <a href="/creacion-intranet-nextcloud-3/" class="pagination--pager" title="Intranet/Nextcloud (Parte 3/4)
 ">Anterior</a>
     
     
-      <a href="/creacion-intranet-nextcloud-4/" class="pagination--pager" title="Intranet/Nextcloud (Parte 4/4)
-">Siguiente</a>
+      <a href="#" class="pagination--pager disabled">Siguiente</a>
     
   </nav>
 

@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-21T18:00:13+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Miguelns21 | Cuaderno de bitácora</title><subtitle>Artículos sobre tecnología, programación y ciberseguridad</subtitle><author><name>Miguelns21</name></author><entry><title type="html">Intranet/Nextcloud (Parte 2/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-2/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 2/4)" /><published>2021-08-16T00:00:00+02:00</published><updated>2021-08-16T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-2</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-2/">&lt;p align=&quot;center&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-21T18:08:18+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Miguelns21 | Cuaderno de bitácora</title><subtitle>Artículos sobre tecnología, programación y ciberseguridad</subtitle><author><name>Miguelns21</name></author><entry><title type="html">Intranet/Nextcloud (Parte 4/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-4/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 4/4)" /><published>2021-08-18T00:00:00+02:00</published><updated>2021-08-18T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-4</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-4/">&lt;h1 id=&quot;consideraciones-finales&quot;&gt;Consideraciones finales&lt;/h1&gt;
+
+&lt;p&gt;Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura.&lt;/p&gt;
+
+&lt;p&gt;Nuestros scripts incorporan la salida de todos los procesos que llevan a cabo a un fichero que se situará en la raíz del la zona del usuario administrador.&lt;/p&gt;
+
+&lt;p&gt;Este fichero de log registra todos los movimientos que el script ha llevado a cabo o no por distintos motivos. Los principales controles que registra son:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Incorrecto formato del fichero de clientes CSV&lt;/li&gt;
+  &lt;li&gt;Creación de usuario correcta o no.&lt;/li&gt;
+  &lt;li&gt;Factura repartida a qué usuario.&lt;/li&gt;
+  &lt;li&gt;etc.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Espero que estos scripts puedan servir de base o ayudar al desarrollo de una versión adaptada a las necesidades de cualquier pequeña empresa.&lt;/p&gt;
+
+&lt;p&gt;Los scripts están disponibles en mi &lt;a href=&quot;https://github.com/miguelns21/NextIntranet&quot;&gt;Github&lt;/a&gt;.&lt;/p&gt;</content><author><name>Miguelns21</name></author><category term="Script" /><category term="Intranet" /><category term="Nextcloud" /><summary type="html">Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura.</summary></entry><entry><title type="html">Intranet/Nextcloud (Parte 3/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-3/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 3/4)" /><published>2021-08-17T00:00:00+02:00</published><updated>2021-08-17T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-3</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-3/">&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&quot;repartir-facturas&quot;&gt;Repartir Facturas&lt;/h1&gt;
+
+&lt;p&gt;Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan.&lt;/p&gt;
+
+&lt;p&gt;La lógica debe ser que el nombre del fichero a repartir comience con el código del usuario en nuestra intranet.&lt;/p&gt;
+
+&lt;p&gt;Por ejemplo: la factura “1000-noviembre.pdf” moverá dicho fichero a la zona de usuario con código 1000.&lt;/p&gt;
+
+&lt;p&gt;El administrador puede crear una estructura de carpetas en su carpeta “Reparto_Factura“ que se replicará a la zona del usuario. Por ejemplo:&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.42.27.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;cron&quot;&gt;Cron&lt;/h2&gt;
+
+&lt;p&gt;Al igual que el script de creación de usuario, nuestro script de reparto se debe programar con la frecuencia estimada por el administrador de la plataforma atendiendo a sus necesidades. Esto es, si las facturas se suben con poca frecuencia, no tiene sentido establecer la programación muy frecuentemente.&lt;/p&gt;
+
+&lt;p&gt;En el caso de Hostens, el panel de control nos ofrece un asistente para los trabajos de cron como se muestra a continuación:&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.48.30.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Fichero de creación de usuarios programado cada 5 minutos.&lt;/p&gt;</content><author><name>Miguelns21</name></author><category term="Script" /><category term="Intranet" /><category term="Nextcloud" /><summary type="html">Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan.</summary></entry><entry><title type="html">Intranet/Nextcloud (Parte 2/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-2/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 2/4)" /><published>2021-08-16T00:00:00+02:00</published><updated>2021-08-16T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-2</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-2/">&lt;p align=&quot;center&quot;&gt;
 &lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png&quot; /&gt;
 &lt;/p&gt;
 
@@ -36,35 +81,7 @@
 &lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.33.20.png&quot; /&gt;
 &lt;/p&gt;
 
-&lt;p&gt;Fichero de creación de usuarios programado cada 5 minutos.&lt;/p&gt;</content><author><name>Miguelns21</name></author><category term="Script" /><category term="Intranet" /><category term="Nextcloud" /><summary type="html">Nuestro primer script “importar_usuario.py” tiene como misión importar los ficheros CSV que el administrador suba a la carpeta Clientes_CSV de nuestra intranet.</summary></entry><entry><title type="html">Intranet/Nextcloud (Parte 3/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-3/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 3/4)" /><published>2021-08-16T00:00:00+02:00</published><updated>2021-08-16T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-3</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-3/">&lt;p align=&quot;center&quot;&gt;
-&lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png&quot; /&gt;
-&lt;/p&gt;
-
-&lt;h1 id=&quot;repartir-facturas&quot;&gt;Repartir Facturas&lt;/h1&gt;
-
-&lt;p&gt;Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan.&lt;/p&gt;
-
-&lt;p&gt;La lógica debe ser que el nombre del fichero a repartir comience con el código del usuario en nuestra intranet.&lt;/p&gt;
-
-&lt;p&gt;Por ejemplo: la factura “1000-noviembre.pdf” moverá dicho fichero a la zona de usuario con código 1000.&lt;/p&gt;
-
-&lt;p&gt;El administrador puede crear una estructura de carpetas en su carpeta “Reparto_Factura“ que se replicará a la zona del usuario. Por ejemplo:&lt;/p&gt;
-
-&lt;p align=&quot;center&quot;&gt;
-&lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.42.27.png&quot; /&gt;
-&lt;/p&gt;
-
-&lt;h2 id=&quot;cron&quot;&gt;Cron&lt;/h2&gt;
-
-&lt;p&gt;Al igual que el script de creación de usuario, nuestro script de reparto se debe programar con la frecuencia estimada por el administrador de la plataforma atendiendo a sus necesidades. Esto es, si las facturas se suben con poca frecuencia, no tiene sentido establecer la programación muy frecuentemente.&lt;/p&gt;
-
-&lt;p&gt;En el caso de Hostens, el panel de control nos ofrece un asistente para los trabajos de cron como se muestra a continuación:&lt;/p&gt;
-
-&lt;p align=&quot;center&quot;&gt;
-&lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.48.30.png&quot; /&gt;
-&lt;/p&gt;
-
-&lt;p&gt;Fichero de creación de usuarios programado cada 5 minutos.&lt;/p&gt;</content><author><name>Miguelns21</name></author><category term="Script" /><category term="Intranet" /><category term="Nextcloud" /><summary type="html">Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan.</summary></entry><entry><title type="html">Intranet/Nextcloud (Parte 1/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-1/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 1/4)" /><published>2021-08-15T00:00:00+02:00</published><updated>2021-08-15T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-1</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-1/">&lt;p align=&quot;center&quot;&gt;
+&lt;p&gt;Fichero de creación de usuarios programado cada 5 minutos.&lt;/p&gt;</content><author><name>Miguelns21</name></author><category term="Script" /><category term="Intranet" /><category term="Nextcloud" /><summary type="html">Nuestro primer script “importar_usuario.py” tiene como misión importar los ficheros CSV que el administrador suba a la carpeta Clientes_CSV de nuestra intranet.</summary></entry><entry><title type="html">Intranet/Nextcloud (Parte 1/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-1/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 1/4)" /><published>2021-08-15T00:00:00+02:00</published><updated>2021-08-15T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-1</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-1/">&lt;p align=&quot;center&quot;&gt;
 &lt;img src=&quot;/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-16.11.28.png&quot; /&gt;
 &lt;/p&gt;
 

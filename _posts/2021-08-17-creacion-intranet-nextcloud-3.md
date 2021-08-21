@@ -2,7 +2,7 @@
 layout: single
 title: Intranet/Nextcloud (Parte 3/4)
 excerpt: "Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan."
-date: 2021-08-16
+date: 2021-08-17
 classes: wide
 header:
   teaser: /assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.42.27.png

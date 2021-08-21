@@ -18,4 +18,9 @@ var store = [{
         "excerpt":"Repartir Facturas Nuestro segundo y último script “repartir_ficheros.py” tiene como misión repartir los ficheros que el administrador suba a la carpeta “Reparto_Factura” de su zona de administración a todos los usuarios del sistema que les correspondan. La lógica debe ser que el nombre del fichero a repartir comience con el...","categories": ["Script"],
         "tags": ["Intranet","Nextcloud"],
         "url": "http://localhost:4000/creacion-intranet-nextcloud-3/",
-        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.42.27.png"}]
+        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/captura-de-pantalla-2021-08-14-a-las-17.42.27.png"},{
+        "title": "Intranet/Nextcloud (Parte 4/4)",
+        "excerpt":"Consideraciones finales Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura. Nuestros scripts incorporan la salida de todos los procesos que llevan a cabo a un fichero que se situará en la raíz del la zona del usuario administrador. Este fichero...","categories": ["Script"],
+        "tags": ["Intranet","Nextcloud"],
+        "url": "http://localhost:4000/creacion-intranet-nextcloud-4/",
+        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png"}]
