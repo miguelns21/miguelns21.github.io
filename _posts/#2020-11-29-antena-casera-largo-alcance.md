@@ -1,6 +1,6 @@
 ---
 layout: single
-title: Creando una antena casera direccional de largo alcance1
+title: Creando una antena casera direccional de largo alcance
 excerpt: "¿Te gustaría aprender a crear una antena casera de largo alcance para hackearlos a todos?, toma asiento que te lo explico."
 date: 2020-11-29
 classes: wide

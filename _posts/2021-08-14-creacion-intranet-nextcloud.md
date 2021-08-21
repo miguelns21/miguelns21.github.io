@@ -2,7 +2,7 @@
 layout: single
 title: Creación de Intranet/Nextcloud
 excerpt: "Hace un tiempo desarrollé unos scripts en Python para cubrir una necesidad que puede surgir en una empresa pequeña con pocos recursos como es la de dotar a sus propios clientes de un espacio donde éstos puedan consultar sus facturas y descargarlas."
-date: 2021-08-21
+date: 2021-08-14
 classes: wide
 header:
   teaser: /assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png
