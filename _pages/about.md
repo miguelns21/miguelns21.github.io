@@ -20,6 +20,7 @@ Durante 22 años he sido programador de aplicaciones de escritorio, inicialmente
 
 Durante mi vida profesional, además, he instalado servidores con Linux, Windows Server, NAS de Synology y Qnap...
 He programado algunos scripts para automatizar tareas de copias de seguridad (sí, copias, ese gran desconocido).
+He tocado Symfony, Python, Bash y muchas cosas que se me olvidan.
 
 Ahora mismo estoy inmerso en este [Master de Ciberseguridad](https://www.campusciberseguridad.com). En su día no pude hacer el TFC de mi carrera y siempre he tenido el pellizco de hacer un master en algo que me atrae y mucho.
 
