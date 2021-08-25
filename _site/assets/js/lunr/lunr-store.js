@@ -23,4 +23,9 @@ var store = [{
         "excerpt":"Consideraciones finales Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura. Nuestros scripts incorporan la salida de todos los procesos que llevan a cabo a un fichero que se situará en la raíz del la zona del usuario administrador. Este fichero...","categories": ["Script"],
         "tags": ["Intranet","Nextcloud"],
         "url": "http://localhost:4000/creacion-intranet-nextcloud-4/",
-        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png"}]
+        "teaser":"http://localhost:4000/assets/images/creacion-intranet-nextcloud/nextcloud-square-logo.png"},{
+        "title": "Linux Smart Enumeration - Herramienta para pentesting",
+        "excerpt":"Empezamos con unos oneliners rápidos: wget \"https://github.com/diego-treitos/linux-smart-enumeration/raw/master/lse.sh\" -O lse.sh;chmod 700 lse.sh curl \"https://github.com/diego-treitos/linux-smart-enumeration/raw/master/lse.sh\" -Lo lse.sh;chmod 700 lse.sh linux-smart-enumeration Linux Smart Enumeration - Herramienta para pentesting Este proyecto está inspirado por https://github.com/rebootuser/LinEnum y usa la mayoría de sus tests. A diferencia de LinEnum, lse trata de mostrar la información ordenada desde...","categories": ["Script"],
+        "tags": ["Linux","Pentesting"],
+        "url": "http://localhost:4000/linux-smart-enumeration/",
+        "teaser":"http://localhost:4000/assets/images/linux-smart-enumeration/linux-terminal.jpg"}]

@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-23T13:06:45+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Miguelns21 | Cuaderno de bitácora</title><subtitle>Artículos sobre tecnología, programación y ciberseguridad</subtitle><author><name>Miguelns21</name></author><entry><title type="html">Intranet/Nextcloud (Parte 4/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-4/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 4/4)" /><published>2021-08-18T00:00:00+02:00</published><updated>2021-08-18T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-4</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-4/">&lt;h1 id=&quot;consideraciones-finales&quot;&gt;Consideraciones finales&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-25T10:33:46+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Miguelns21 | Cuaderno de bitácora</title><subtitle>Artículos sobre tecnología, programación y ciberseguridad</subtitle><author><name>Miguelns21</name></author><entry><title type="html">Linux Smart Enumeration - Herramienta para pentesting</title><link href="http://localhost:4000/linux-smart-enumeration/" rel="alternate" type="text/html" title="Linux Smart Enumeration - Herramienta para pentesting" /><published>2021-08-25T00:00:00+02:00</published><updated>2021-08-25T00:00:00+02:00</updated><id>http://localhost:4000/linux-smart-enumeration</id><content type="html" xml:base="http://localhost:4000/linux-smart-enumeration/">&lt;p&gt;&lt;img src=&quot;/assets/images/linux-smart-enumeration/lse_level0.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Empezamos con unos oneliners rápidos:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wget &quot;https://github.com/diego-treitos/linux-smart-enumeration/raw/master/lse.sh&quot; -O lse.sh;chmod 700 lse.sh&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl &quot;https://github.com/diego-treitos/linux-smart-enumeration/raw/master/lse.sh&quot; -Lo lse.sh;chmod 700 lse.sh&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;linux-smart-enumeration&quot;&gt;linux-smart-enumeration&lt;/h1&gt;
+&lt;p&gt;Linux Smart Enumeration - Herramienta para pentesting&lt;/p&gt;
+
+&lt;p&gt;Este proyecto está inspirado por https://github.com/rebootuser/LinEnum y usa la mayoría de sus tests.&lt;/p&gt;
+
+&lt;p&gt;A diferencia de LinEnum, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lse&lt;/code&gt; trata de mostrar la información ordenada desde el punto de vista de su importancia en cuanto a privilegios se refiere.&lt;/p&gt;
+
+&lt;h2 id=&quot;qué-es&quot;&gt;¿Qué es?&lt;/h2&gt;
+
+&lt;p&gt;Este script de shell muestra información relevante sobre la seguridad de un sistema linux local ayudándo a escalar privilegios.&lt;/p&gt;
+
+&lt;p&gt;También puede &lt;strong&gt;monitorizar procesos para descubrir ejecuciones de procesos recurrentes&lt;/strong&gt;. Monitoriza al mismo tiempo que ejecuta todos los demás test. Por defecto monitoriza durante 1 minuto pero puede cambiarse este tiempo a través del parámetro &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-p&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Tiene 3 niveles de información a mostrar para controlar cuanta información se quiere ver.&lt;/p&gt;
+
+&lt;h2 id=&quot;cómo-se-usa&quot;&gt;¿Cómo se usa?&lt;/h2&gt;
+
+&lt;p&gt;La idea es obtener información gradualmente.&lt;/p&gt;
+
+&lt;p&gt;Primero se debería ejecutar como &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./lse.sh&lt;/code&gt;. Si se ven algunos &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;yes!&lt;/code&gt;, probablemente sea información interesante para trabajar sobre ella.&lt;/p&gt;
+
+&lt;p&gt;Si no, se puede intentar ejecutar con el primer nivel de salida del comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;level 1&lt;/code&gt; con &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./lse.sh -l1&lt;/code&gt; y se mostrará mas información interesante.&lt;/p&gt;
+
+&lt;p&gt;Si esto tampoco ayuda, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;level 2&lt;/code&gt; mostrará toda la información recolectada sobre el servicio usando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./lse.sh -l2&lt;/code&gt;. En este caso será importante usarlo de la siguiente forma &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./lse.sh -l2 | less -r&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Se pueden seleccionar qué tipo de tests ejecutar a través del parámetros &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-s&lt;/code&gt;. Por ejemplo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./lse.sh -l2 -s usr010,net,pro&lt;/code&gt; ejecutará el teste &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;usr010&lt;/code&gt; y todos los tests de la sección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;net&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pro&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Use: ./lse.sh [options]
+
+ OPTIONS
+  -c           Disable color
+  -i           Non interactive mode
+  -h           This help
+  -l LEVEL     Output verbosity level
+                 0: Show highly important results. (default)
+                 1: Show interesting results.
+                 2: Show all gathered information.
+  -s SELECTION Comma separated list of sections or tests to run. Available
+               sections:
+                 usr: User related tests.
+                 sud: Sudo related tests.
+                 fst: File system related tests.
+                 sys: System related tests.
+                 sec: Security measures related tests.
+                 ret: Recurren tasks (cron, timers) related tests.
+                 net: Network related tests.
+                 srv: Services related tests.
+                 pro: Processes related tests.
+                 sof: Software related tests.
+                 ctn: Container (docker, lxc) related tests.
+               Specific tests can be used with their IDs (i.e.: usr020,sud)
+  -e PATHS     Comma separated list of paths to exclude. This allows you
+               to do faster scans at the cost of completeness
+  -p SECONDS   Time that the process monitor will spend watching for
+               processes. A value of 0 will disable any watch (default: 60)
+  -S           Serve the lse.sh script in this host so it can be retrieved
+               from a remote host.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;demo&quot;&gt;Demo&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/miguelns21/linux-smart-enumeration/raw/master/screenshots/lse.gif&quot; alt=&quot;LSE Demostración&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;level-0-default-ejemplo-de-salida&quot;&gt;Level 0 (default) ejemplo de salida&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/miguelns21/linux-smart-enumeration/master/screenshots/lse_level0.png&quot; alt=&quot;LSE level0&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;ejemplos&quot;&gt;Ejemplos&lt;/h2&gt;
+
+&lt;p&gt;Ejecución directa en una línea&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bash &amp;lt;(wget -q -O - https://raw.githubusercontent.com/diego-treitos/linux-smart-enumeration/master/lse.sh) -l2 -i&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bash &amp;lt;(curl -s https://raw.githubusercontent.com/diego-treitos/linux-smart-enumeration/master/lse.sh) -l1 -i&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;La fuente original de esta información en inglés se puede encontrar en &lt;a href=&quot;https://hakin9.org/linux-smart-enumeration/&quot;&gt;hakin9.org&lt;/a&gt;.&lt;/p&gt;</content><author><name>Miguelns21</name></author><category term="Script" /><category term="Linux" /><category term="Pentesting" /><summary type="html">Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura.</summary></entry><entry><title type="html">Intranet/Nextcloud (Parte 4/4)</title><link href="http://localhost:4000/creacion-intranet-nextcloud-4/" rel="alternate" type="text/html" title="Intranet/Nextcloud (Parte 4/4)" /><published>2021-08-18T00:00:00+02:00</published><updated>2021-08-18T00:00:00+02:00</updated><id>http://localhost:4000/creacion-intranet-nextcloud-4</id><content type="html" xml:base="http://localhost:4000/creacion-intranet-nextcloud-4/">&lt;h1 id=&quot;consideraciones-finales&quot;&gt;Consideraciones finales&lt;/h1&gt;
 
 &lt;p&gt;Programar un script que hace algo pero que es difícil comprobar el resultado es una práctica poco segura.&lt;/p&gt;
 
