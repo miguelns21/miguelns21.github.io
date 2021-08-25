@@ -8,7 +8,7 @@ date: 2021-08-23
 <br>
 
 <p align="center">
-<img src="/assets/images/about/photo-about.jpeg">
+<img src="/assets/images/about/foto_about.jpg">
 </p>
 
 Mi nombre es Miguel Navarro (aka **miguelns21**), y podéis encontrarme como miguelns21* en casi cualquier sitio.
