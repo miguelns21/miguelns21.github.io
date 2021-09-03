@@ -1,4 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-25T11:09:13+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Miguelns21 | Cuaderno de bitácora</title><subtitle>Artículos sobre tecnología, programación y ciberseguridad</subtitle><author><name>Miguelns21</name></author><entry><title type="html">Linux Smart Enumeration - Herramienta para pentesting</title><link href="http://localhost:4000/linux-smart-enumeration/" rel="alternate" type="text/html" title="Linux Smart Enumeration - Herramienta para pentesting" /><published>2021-08-25T00:00:00+02:00</published><updated>2021-08-25T00:00:00+02:00</updated><id>http://localhost:4000/linux-smart-enumeration</id><content type="html" xml:base="http://localhost:4000/linux-smart-enumeration/">&lt;p&gt;&lt;img src=&quot;/assets/images/linux-smart-enumeration/lse_level0.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-03T10:47:47+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Miguelns21 | Cuaderno de bitácora</title><subtitle>Artículos sobre tecnología, programación y ciberseguridad</subtitle><author><name>Miguelns21</name></author><entry><title type="html">Notificaciones en tu propio bot de Telegram</title><link href="http://localhost:4000/notificaciones-en-bot-telegram/" rel="alternate" type="text/html" title="Notificaciones en tu propio bot de Telegram" /><published>2021-09-02T00:00:00+02:00</published><updated>2021-09-02T00:00:00+02:00</updated><id>http://localhost:4000/notificaciones-en-bot-telegram</id><content type="html" xml:base="http://localhost:4000/notificaciones-en-bot-telegram/">&lt;h1 id=&quot;tu-propio-bot-de-notificaciones&quot;&gt;Tu propio bot de notificaciones&lt;/h1&gt;
+&lt;p&gt;Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria.&lt;/p&gt;
+
+&lt;p&gt;Pues bien en este post voy a describir la forma mas sencilla que he encontrado (de momento) para que puedas mandar notificaciones a tu propio bot de Telegram. Si nunca has creado un bot verás que es un proceso en extremo sencillo.&lt;/p&gt;
+
+&lt;p&gt;Vamos manos a la obra.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-creación-de-tu-propio-bot-en-telegram&quot;&gt;1. Creación de tu propio bot en Telegram&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Accede a tu aplicación de Telegram (web, desktop, móvil, etc.) y busca al usuario @botFather
+&lt;img src=&quot;/assets/images/notificaciones_en_bot_telegram/botfather.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;Comienza una conversación con él y manda la orden &lt;strong&gt;/newbot&lt;/strong&gt;:
+&lt;img src=&quot;/assets/images/notificaciones_en_bot_telegram/botfather_conversacion.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;Dale un nombre y un usuario a tu bot:
+&lt;img src=&quot;/assets/images/notificaciones_en_bot_telegram/botfather_creacion.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;@BotFather te contestará con un TOKEN que debes guardar en lugar seguro.&lt;/li&gt;
+  &lt;li&gt;Busca ahora tu bot y emprende una conversación con él:
+&lt;img src=&quot;/assets/images/notificaciones_en_bot_telegram/tu_bot.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;2-capturar-el-id-del-chat&quot;&gt;2. Capturar el ID del chat&lt;/h2&gt;
+
+&lt;p&gt;Necesitas conocer ahora el ID de tu propio chat para ello puedes usar un navegador y poner la siguiente URL:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;https://api.telegram.org/bot[token]/getUpdates&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;donde token debe ser sustituido por el que ya tenemos.&lt;/p&gt;
+
+&lt;p&gt;Tendremos algo del estilo:&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/notificaciones_en_bot_telegram/botfather_id_chat.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;3-utilización&quot;&gt;3. Utilización&lt;/h2&gt;
+
+&lt;p&gt;Con estos dos datos en nuestro poder podemos probar nuestro bot de la siguiente forma:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;https://api.telegram.org/bot[token]/sendMessage?chat_id[chatId]&amp;amp;parse_mode=Markdown&amp;amp;text=[msg]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Solo tenemos que sustituir &lt;strong&gt;token&lt;/strong&gt; e &lt;strong&gt;chartId&lt;/strong&gt; por nuestros valores, siendo &lt;strong&gt;msg&lt;/strong&gt; el mensaje que queremos mandar a nuestro bot.&lt;/p&gt;
+
+&lt;p&gt;El resultado puede verse a continuación:&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/notificaciones_en_bot_telegram/botfather_pruebas.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Si se quiere usar desde un script en python, aquí tenemos un código de ejemplo:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;requests&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;emoji_info&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;ℹ️&apos;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;emoji_ok&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;✅&apos;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;emoji_warning&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;⚠️&apos;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;emoji_error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;❌️&apos;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sendNotification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;notification_body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;notification_title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;emoji&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;bot_token&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;1907783307:AAGqkGE39tJPhD7XXXXXXXXXXXXXX&apos;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;bot_chatID&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;262XXXXX&apos;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;emoji&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos; *&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;notification_title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;*&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;notification_body&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;send_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;https://api.telegram.org/bot&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bot_token&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;/sendMessage?chat_id=&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bot_chatID&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;&amp;amp;parse_mode=Markdown&amp;amp;text=&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;requests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sendNotification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Cuerpo del mensaje&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Mi título del mensaje&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;emoji_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ok&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mensaje enviado correctamente&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Tendremos que sustituir bot_token y bot_chatID por nuestros valores.&lt;/p&gt;
+
+&lt;p&gt;El resultado final:&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/notificaciones_en_bot_telegram/botfather_resultado.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;El mundo de los bot es extremadamente amplio y puede resultar muy complejo pero para cubrir exactamente esta necesitad de notificaciones, lo tenemos resuelto.&lt;/p&gt;</content><author><name>Miguelns21</name></author><category term="Script" /><category term="Telegram" /><category term="Python" /><summary type="html">Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria.</summary></entry><entry><title type="html">Linux Smart Enumeration - Herramienta para pentesting</title><link href="http://localhost:4000/linux-smart-enumeration/" rel="alternate" type="text/html" title="Linux Smart Enumeration - Herramienta para pentesting" /><published>2021-08-25T00:00:00+02:00</published><updated>2021-08-25T00:00:00+02:00</updated><id>http://localhost:4000/linux-smart-enumeration</id><content type="html" xml:base="http://localhost:4000/linux-smart-enumeration/">&lt;p&gt;&lt;img src=&quot;/assets/images/linux-smart-enumeration/lse_level0.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Empezamos con unos oneliners rápidos:&lt;/p&gt;
 

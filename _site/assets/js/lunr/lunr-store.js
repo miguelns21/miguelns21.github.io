@@ -28,4 +28,9 @@ var store = [{
         "excerpt":"Empezamos con unos oneliners rápidos: wget \"https://github.com/diego-treitos/linux-smart-enumeration/raw/master/lse.sh\" -O lse.sh;chmod 700 lse.sh curl \"https://github.com/diego-treitos/linux-smart-enumeration/raw/master/lse.sh\" -Lo lse.sh;chmod 700 lse.sh linux-smart-enumeration Linux Smart Enumeration - Herramienta para pentesting Este proyecto está inspirado por https://github.com/rebootuser/LinEnum y usa la mayoría de sus tests. A diferencia de LinEnum, lse trata de mostrar la información ordenada desde...","categories": ["Script"],
         "tags": ["Linux","Pentesting"],
         "url": "http://localhost:4000/linux-smart-enumeration/",
-        "teaser":"http://localhost:4000/assets/images/linux-smart-enumeration/linux-terminal.jpg"}]
+        "teaser":"http://localhost:4000/assets/images/linux-smart-enumeration/linux-terminal.jpg"},{
+        "title": "Notificaciones en tu propio bot de Telegram",
+        "excerpt":"Tu propio bot de notificaciones Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria. Pues bien en este post voy a describir la forma mas sencilla que he encontrado (de momento) para que puedas...","categories": ["Script"],
+        "tags": ["Telegram","Python"],
+        "url": "http://localhost:4000/notificaciones-en-bot-telegram/",
+        "teaser":"http://localhost:4000/assets/images/notificaciones_en_bot_telegram/telegram_portada.png"}]

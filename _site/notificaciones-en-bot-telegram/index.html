@@ -1,0 +1,542 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.15.1 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="es" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>            Notificaciones en tu propio bot de Telegram - Miguelns21      Cuaderno de bitácora      </title>
+<meta name="description" content="Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Miguelns21 | Cuaderno de bitácora">
+<meta property="og:title" content="Notificaciones en tu propio bot de Telegram">
+<meta property="og:url" content="http://localhost:4000/notificaciones-en-bot-telegram/">
+
+
+  <meta property="og:description" content="Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/notificaciones_en_bot_telegram/telegram_portada.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2021-09-02T00:00:00+02:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/notificaciones-en-bot-telegram/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Miguelns21",
+      "url": "http://localhost:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Miguelns21 | Cuaderno de bitácora Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE ]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/masthead.png" alt=""></a>
+                
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/" >Inicio</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/" >Artículos</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/" >Categorías</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/" >Etiquetas</a>
+            </li><li class="masthead__menu-item">
+              <a href="/buscador/" >Buscador</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/" >Contacto</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Alternar menú</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+    
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Inicio</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        <li class="current">Notificaciones en tu propio bot de Telegram</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/avatar.png" alt="Miguelns21" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Miguelns21</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+        Entusiasta de las tecnologías.
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Seguir</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/miguelns21" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://www.linkedin.com/in/miguelns21" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/miguelns21" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        
+          <li>
+            <a href="https://www.youtube.com/channel/UCZGS76c-ebU0QSOVXuSjKfA" itemprop="sameAs" rel="nofollow noopener noreferrer">
+              <i class="fab fa-fw fa-youtube" aria-hidden="true"></i> YouTube
+            </a>
+          </li>
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Notificaciones en tu propio bot de Telegram">
+    <meta itemprop="description" content="Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria.">
+    <meta itemprop="datePublished" content="September 02, 2021">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Notificaciones en tu propio bot de Telegram
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 minuto(s) de lectura
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p class="page__meta">
+          
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-09-02T00:00:00+02:00">September 02, 2021 </time>&emsp;
+          
+          <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
+
+
+
+
+  1 minuto(s) de lectura
+
+        </p>
+        <h1 id="tu-propio-bot-de-notificaciones">Tu propio bot de notificaciones</h1>
+<p>Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria.</p>
+
+<p>Pues bien en este post voy a describir la forma mas sencilla que he encontrado (de momento) para que puedas mandar notificaciones a tu propio bot de Telegram. Si nunca has creado un bot verás que es un proceso en extremo sencillo.</p>
+
+<p>Vamos manos a la obra.</p>
+
+<h2 id="1-creación-de-tu-propio-bot-en-telegram">1. Creación de tu propio bot en Telegram</h2>
+
+<ul>
+  <li>Accede a tu aplicación de Telegram (web, desktop, móvil, etc.) y busca al usuario @botFather
+<img src="/assets/images/notificaciones_en_bot_telegram/botfather.png" alt="" /></li>
+  <li>Comienza una conversación con él y manda la orden <strong>/newbot</strong>:
+<img src="/assets/images/notificaciones_en_bot_telegram/botfather_conversacion.png" alt="" /></li>
+  <li>Dale un nombre y un usuario a tu bot:
+<img src="/assets/images/notificaciones_en_bot_telegram/botfather_creacion.png" alt="" /></li>
+  <li>@BotFather te contestará con un TOKEN que debes guardar en lugar seguro.</li>
+  <li>Busca ahora tu bot y emprende una conversación con él:
+<img src="/assets/images/notificaciones_en_bot_telegram/tu_bot.png" alt="" /></li>
+</ul>
+
+<h2 id="2-capturar-el-id-del-chat">2. Capturar el ID del chat</h2>
+
+<p>Necesitas conocer ahora el ID de tu propio chat para ello puedes usar un navegador y poner la siguiente URL:</p>
+
+<blockquote>
+  <p>https://api.telegram.org/bot[token]/getUpdates</p>
+</blockquote>
+
+<p>donde token debe ser sustituido por el que ya tenemos.</p>
+
+<p>Tendremos algo del estilo:</p>
+
+<p align="center">
+<img src="/assets/images/notificaciones_en_bot_telegram/botfather_id_chat.png" />
+</p>
+
+<h2 id="3-utilización">3. Utilización</h2>
+
+<p>Con estos dos datos en nuestro poder podemos probar nuestro bot de la siguiente forma:</p>
+
+<blockquote>
+  <p>https://api.telegram.org/bot[token]/sendMessage?chat_id[chatId]&amp;parse_mode=Markdown&amp;text=[msg]</p>
+</blockquote>
+
+<p>Solo tenemos que sustituir <strong>token</strong> e <strong>chartId</strong> por nuestros valores, siendo <strong>msg</strong> el mensaje que queremos mandar a nuestro bot.</p>
+
+<p>El resultado puede verse a continuación:</p>
+
+<p align="center">
+<img src="/assets/images/notificaciones_en_bot_telegram/botfather_pruebas.png" />
+</p>
+
+<p>Si se quiere usar desde un script en python, aquí tenemos un código de ejemplo:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">emoji_info</span> <span class="o">=</span> <span class="s">'ℹ️'</span>
+<span class="n">emoji_ok</span> <span class="o">=</span> <span class="s">'✅'</span>
+<span class="n">emoji_warning</span> <span class="o">=</span> <span class="s">'⚠️'</span>
+<span class="n">emoji_error</span> <span class="o">=</span> <span class="s">'❌️'</span>
+
+<span class="k">def</span> <span class="nf">sendNotification</span><span class="p">(</span><span class="n">notification_body</span><span class="p">,</span> <span class="n">notification_title</span><span class="p">,</span> <span class="n">emoji</span><span class="p">):</span>
+    <span class="n">bot_token</span> <span class="o">=</span> <span class="s">'1907783307:AAGqkGE39tJPhD7XXXXXXXXXXXXXX'</span>
+    <span class="n">bot_chatID</span> <span class="o">=</span> <span class="s">'262XXXXX'</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">emoji</span> <span class="o">+</span> <span class="s">' *'</span><span class="o">+</span><span class="n">notification_title</span><span class="o">+</span><span class="s">'*</span><span class="se">\n\n</span><span class="s">'</span><span class="o">+</span><span class="n">notification_body</span>
+    <span class="n">send_text</span> <span class="o">=</span> <span class="s">'https://api.telegram.org/bot'</span> <span class="o">+</span> <span class="n">bot_token</span> <span class="o">+</span> <span class="s">'/sendMessage?chat_id='</span> <span class="o">+</span> <span class="n">bot_chatID</span> <span class="o">+</span> <span class="s">'&amp;parse_mode=Markdown&amp;text='</span> <span class="o">+</span> <span class="n">msg</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">send_text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="p">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">sendNotification</span><span class="p">(</span><span class="s">'Cuerpo del mensaje'</span><span class="p">,</span> <span class="s">'Mi título del mensaje'</span><span class="p">,</span> <span class="n">emoji_info</span><span class="p">)[</span><span class="s">"ok"</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Mensaje enviado correctamente"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Tendremos que sustituir bot_token y bot_chatID por nuestros valores.</p>
+
+<p>El resultado final:</p>
+
+<p align="center">
+<img src="/assets/images/notificaciones_en_bot_telegram/botfather_resultado.png" />
+</p>
+
+<p>El mundo de los bot es extremadamente amplio y puede resultar muy complejo pero para cubrir exactamente esta necesitad de notificaciones, lo tenemos resuelto.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Etiquetas: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#python" class="page__taxonomy-item" rel="tag">Python</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#telegram" class="page__taxonomy-item" rel="tag">Telegram</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categorías: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#script" class="page__taxonomy-item" rel="tag">Script</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Actualizado:</strong> <time datetime="2021-09-02T00:00:00+02:00">September 02, 2021</time></p>
+        
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/linux-smart-enumeration/" class="pagination--pager" title="Linux Smart Enumeration - Herramienta para pentesting
+">Anterior</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Siguiente</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+</div>
+
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Seguir:</strong></li>
+    
+
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Miguelns21</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script data-search-pseudo-elements defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>
