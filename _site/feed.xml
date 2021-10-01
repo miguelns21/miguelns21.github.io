@@ -1,4 +1,415 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-03T10:47:47+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Miguelns21 | Cuaderno de bitácora</title><subtitle>Artículos sobre tecnología, programación y ciberseguridad</subtitle><author><name>Miguelns21</name></author><entry><title type="html">Notificaciones en tu propio bot de Telegram</title><link href="http://localhost:4000/notificaciones-en-bot-telegram/" rel="alternate" type="text/html" title="Notificaciones en tu propio bot de Telegram" /><published>2021-09-02T00:00:00+02:00</published><updated>2021-09-02T00:00:00+02:00</updated><id>http://localhost:4000/notificaciones-en-bot-telegram</id><content type="html" xml:base="http://localhost:4000/notificaciones-en-bot-telegram/">&lt;h1 id=&quot;tu-propio-bot-de-notificaciones&quot;&gt;Tu propio bot de notificaciones&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-10-01T17:40:19+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Miguelns21 | Cuaderno de bitácora</title><subtitle>Artículos sobre tecnología, programación y ciberseguridad</subtitle><author><name>Miguelns21</name></author><entry><title type="html">Despliegue en producción de una aplicación Django</title><link href="http://localhost:4000/despliegue-app-django/" rel="alternate" type="text/html" title="Despliegue en producción de una aplicación Django" /><published>2021-10-01T00:00:00+02:00</published><updated>2021-10-01T00:00:00+02:00</updated><id>http://localhost:4000/despliegue-app-django</id><content type="html" xml:base="http://localhost:4000/despliegue-app-django/">&lt;p&gt;En este post trato de explicar de la forma mas rápida y concisa cómo poner en producción una aplicación en Django en un VPS basado en Linux.&lt;/p&gt;
+
+&lt;p&gt;Tómese este post a modo de chuleta con todos los pasos necesarios para el despliegue: desde la instalación de la aplicación partiendo de un repositorio github, la instalación de postgresql, nginx, supervisor, cortafuegos, gunicorn…&lt;/p&gt;
+
+&lt;p&gt;Vamos manos a la obra.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-crear-un-usuario&quot;&gt;1. Crear un usuario&lt;/h2&gt;
+
+&lt;p&gt;Usuario bajo el cual se ejecutará nuestra aplicación:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;adduser jair&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;dar-privilegios-sudo-al-nuevo-usuario&quot;&gt;Dar privilegios sudo al nuevo usuario&lt;/h3&gt;
+
+&lt;p&gt;Editar con:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nano /etc/sudoers&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Y añadir la línea:&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/privilegios-usuarios.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;2-cambiar-el-puerto-ssh-del-servidor&quot;&gt;2. Cambiar el puerto ssh del servidor&lt;/h2&gt;
+
+&lt;p&gt;Editamos:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nano /etc/ssh/sshd_config&lt;/code&gt;&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/cambio-puerto.jpeg&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Reiniciar ssh:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;service ssh restart&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;3-configurar-el-firewall&quot;&gt;3. Configurar el firewall&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ufw status&lt;/code&gt; –&amp;gt; ver el estado&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ufw enable&lt;/code&gt; –&amp;gt; activar firewall&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ufw allow 22&lt;/code&gt; –&amp;gt; permite el paso al puerto 22&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ufw allow ssh&lt;/code&gt; –&amp;gt; permite ssh independientemente del puerto en el que esté configurado.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ufw status numbered&lt;/code&gt; –&amp;gt; lista las reglas con el orden de aplicación.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ufw delete 1&lt;/code&gt; –&amp;gt; borra la regla número 1.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ufw disabe&lt;/code&gt; –&amp;gt; desactiva el firewall.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-clonar-repositorio-del-proyecto-django&quot;&gt;4. Clonar repositorio del proyecto Django&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://github.com/andrestvp/ver.git&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;5-preparar-el-entorno-python&quot;&gt;5. Preparar el entorno Python&lt;/h2&gt;
+
+&lt;h3 id=&quot;comprobar-si-se-tiene-instalado-virtualenv&quot;&gt;Comprobar si se tiene instalado virtualenv:&lt;/h3&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/virtualenv.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;e instalarlo en su caso:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo apt-get install virtualenv&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;comprobar-si-está-instalado-python&quot;&gt;Comprobar si está instalado Python&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python3 --version&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;crear-el-entorno-virtual-en-la-raíz-de-la-aplicación&quot;&gt;Crear el entorno virtual en la raíz de la aplicación:&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virtualenv env -ppython3&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;El argumento -p servirá para crear el entorno virtual en python3 aunque tuvieramos instalado también python2.&lt;/p&gt;
+
+&lt;p&gt;Activamos el entorno virtual con:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;source env/bin/activate&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Instalamos ahora los requerimientos:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pip install -r requirements.txt&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;preparar-la-aplicación&quot;&gt;Preparar la aplicación&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py makemigrations&lt;/code&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py migrate&lt;/code&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py createsuperuser&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;6-instalar-postgresql&quot;&gt;6. Instalar Postgresql&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo apt install postgresql postgresql-contrib&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Configurar postgresql:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo -u postgres psql&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Cambiar la contraseña del usuario postgres:&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/configuracion-postgresql.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Cambiar la codificación de caracteres y la zona horaria:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ALTER ROLE postgres SET client_encoding TO &apos;utf8&apos;;&lt;/code&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ALTER ROLE postgres SET timezone TO &apos;UTC&apos;;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Crear una base de datos:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;create database apolo;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/database-postgresql.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Verificamos en nuestro entorno virtual de python si tenemos instalada la librería de postgresql:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pip list&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;En caso de que no:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pip install psycopg2-binary&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Cambiamos la configuración del proyecto django a postgresql.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nano config/db.py&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;verificando usuario y contraseña.
+De nuevo haremos migraciones y migrate.&lt;/p&gt;
+
+&lt;h2 id=&quot;7-crear-un-fichero-bash-para-ejecutar-nuestra-app-python&quot;&gt;7. Crear un fichero bash para ejecutar nuestra app python&lt;/h2&gt;
+
+&lt;p&gt;Crearemos una carpeta ‘deploy’ en la estructura de nuestra app que contendrá el bash.&lt;/p&gt;
+
+&lt;p&gt;Para saber mas sobre bash hay un buen tutorial en &lt;a href=&quot;https://bioinf.comav.upv.es/courses/unix/scripts_bash.html&quot;&gt;Tutorial Bash&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;El script es ‘server.sh’:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;DJANGODIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dirname&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dirname&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;DJANGO_SETTINGS_MODULE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;config.settings
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$DJANGODIR&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source env&lt;/span&gt;/bin/activate
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DJANGO_SETTINGS_MODULE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$DJANGO_SETTINGS_MODULE&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;python manage.py runserver 0:9000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;configurar-supervisor-gestor-de-procesos&quot;&gt;Configurar Supervisor (gestor de procesos)&lt;/h3&gt;
+
+&lt;p&gt;Se encargará de mantener nuestra aplicación siempre corriendo en nuestro servidor.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Instalar supervidor
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get install supervisor&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Crear el siguiente archivo conf en la ruta &lt;em&gt;/etc/supervisor/conf.d/apolo.conf&lt;/em&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[program:apolo]
+command=/home/jair/apolo/deploy/server.sh
+autostart=true
+autorestart=true
+stderr_logfile=/home/jair/apolo/logs/err.log
+stdout_logfile=/home/jair/apolo/logs/out.log
+user=jair
+environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Comprobamos ahora si un fichero de supervisor es correcto:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl reread&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Ahora actualizamos las tareas de supervisor:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl update&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Podemos ver todo lo que se está ejecutando con supervisor:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl status&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Para parar el servicio:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl stop apolo&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Para iniciarlo:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl start apolo&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Para reiniciar una tarea:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl restart apolo&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;o todas:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl restart all&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Si hacemos un cambio al script debemos actualizarlo en supervisor:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl update&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;8-configurar-proxy-gunicorn&quot;&gt;8. Configurar proxy gunicorn&lt;/h2&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/estructura-django.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Instalamos en nuestro entorno virtual:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pip install gunicorn&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Creamos en la carpeta config un fichero settings llamado &lt;em&gt;production.py&lt;/em&gt; que añadirá un par de variables a nuestro setting original:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from .settings import *
+ALLOWED_HOSTS = [&quot;192.168.0.9&quot;, &quot;midominio.com&quot;, &quot;www.midominio.com&quot;]
+DEBUG = False
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Editamos el archivo &lt;em&gt;wsgi.py&lt;/em&gt; para que apunte al nuevo &lt;em&gt;production.py&lt;/em&gt;&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/wsgi.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Para comprobar que está funcionando gunicorn:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gunicorn config.wsgi&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;desde la ruta del programa:&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/estado-gunicorn.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Importante&lt;/strong&gt; gunicorn servirá sobre el puerto 8000 por lo que tendremos que para el supervisor con:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl stop apolo&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Necesitaremos un fichero bash para que que supervisor levante gunicorn:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;NAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;apolo&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;DJANGODIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dirname&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dirname&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;SOCKFILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/tmp/gunicorn-apolo.sock
+&lt;span class=&quot;nv&quot;&gt;LOGDIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DJANGODIR&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/logs/gunicorn.log
+&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;jair
+&lt;span class=&quot;nv&quot;&gt;GROUP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;jair
+&lt;span class=&quot;nv&quot;&gt;NUM_WORKERS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5
+&lt;span class=&quot;nv&quot;&gt;DJANGO_WSGI_MODULE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;config.wsgi
+
+&lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-frv&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$SOCKFILE&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$DJANGODIR&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$DJANGODIR&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DJANGODIR&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/env/bin/gunicorn &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DJANGO_WSGI_MODULE&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:application &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$NAME&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--workers&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$NUM_WORKERS&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$GROUP&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--bind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;unix:&lt;span class=&quot;nv&quot;&gt;$SOCKFILE&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--log-level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;debug &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--log-file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$LOGDIR&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Lo llamaremos &lt;em&gt;gunicorn.sh&lt;/em&gt; y estará en la carpeta deploy con permisos de ejecución.&lt;/p&gt;
+
+&lt;h2 id=&quot;9-configurar-web-server&quot;&gt;9. Configurar web server&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo apt install nginx&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Si usamos firewall habilitamos nginx:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ufw allow &apos;Nginx HTTP&apos;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ufw allow &apos;Nginx HTTPS&apos;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Verificamos que está corriendo:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;systemctl status nginx&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;En el entorno virtual de python ejecutaremos:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py collectstatic --link --noinput&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;para organizar todas los recursos estáticos en una sola carpeta pero con enlaces simbólicos (sin ocupar espacio en disco).&lt;/p&gt;
+
+&lt;p&gt;Creamos el fichero de nginx en la ruta */etc/nginx/sites-available/apolo.conf’ con el contenido:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;upstream apoloconn &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    server unix:/tmp/gunicorn-apolo.sock &lt;span class=&quot;nv&quot;&gt;fail_timeout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+server &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    listen 80&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    server_name www.algorisoftprojects.com algorisoftprojects.com 192.168.0.9&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    access_log /home/jair/apolo/logs/nginx-access.log&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    error_log /home/jair/apolo/logs/nginx-error.log&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    location /media/  &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;alias&lt;/span&gt; /home/jair/apolo/media/&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    location /static/ &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;alias&lt;/span&gt; /home/jair/apolo/staticfiles/&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    location /static/admin/ &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;alias&lt;/span&gt; /home/jair/apolo/staticfiles/admin/&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    location / &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+         proxy_set_header X-Forwarded-For &lt;span class=&quot;nv&quot;&gt;$proxy_add_x_forwarded_for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         proxy_set_header Host &lt;span class=&quot;nv&quot;&gt;$http_host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         proxy_redirect off&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+         proxy_pass http://apoloconn&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    error_page 500 502 503 504 /templates/500.html&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Habilitamos el sitio haciendo un enlace simbólico:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ln -s /etc/nginx/sites-available/apolo.conf /etc/nginx/sites_enabled/&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Comprobamos la configuración creada con:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo nginx -t&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Cambiamos ahora nuesto &lt;em&gt;apolo.conf&lt;/em&gt; de supervisor para que ahora apunto a gunicorn.sh en lugar de a server.sh como lo venía haciendo hasta este momento:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo nano /etc/supervisor/conf.d/apolo.conf&lt;/code&gt;&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/cambio-a-gunicorn.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Actualizamos supervisor y reiniciamos nginx:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo supervisorctl update&lt;/code&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo systemctl restart nginx&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Ahora es recomendable eliminar el puerto 8000 de las reglas del cortafueros:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ufw status numbered&lt;/code&gt;&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/despliegue-app-django/actualizacion-ufw.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ufw delete 2&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;10-instalar-los-certificados-ssl&quot;&gt;10. Instalar los certificados SSL&lt;/h2&gt;
+
+&lt;p&gt;Primero instalaremos el software certbot en el servidor:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo apt install certbot python3-certbot-nginx&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Una vez instalado:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo certbot --nginx -d midominio.com -d www.midominio.com&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A la pregunta sobre redireccionar http a https contestamos ‘2’ (si).&lt;/p&gt;
+
+&lt;p&gt;Actualizamos nuestro cortafuegos:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ufw allow &apos;Nginx Full&lt;/code&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ufw delete allow &apos;Nginx HTTP&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;11-backup-de-la-base-de-datos&quot;&gt;11. Backup de la Base de datos&lt;/h2&gt;
+
+&lt;p&gt;Crearemos un script bash para hacer el backup de postgresql:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;FECHA&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;date&lt;/span&gt; +%d_%m_%Y_%H_%M_%S&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;apolo_&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;FECHA&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.dump
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/jair/backup/
+&lt;span class=&quot;nv&quot;&gt;USER_DB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;postgres
+&lt;span class=&quot;nv&quot;&gt;NAME_DB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;apolo
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$DIR&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PGPASSWORD&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;123
+&lt;span class=&quot;nb&quot;&gt;chmod &lt;/span&gt;777 &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;procesando la copia de la base de datos&quot;&lt;/span&gt;
+pg_dump &lt;span class=&quot;nt&quot;&gt;-U&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$USER_DB&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-h&lt;/span&gt; localhost &lt;span class=&quot;nt&quot;&gt;--port&lt;/span&gt; 5432 &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$NAME_DB&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;backup terminado&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Añadimos una tarea a cron:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crontab -e&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Programamos la tarea en un tiempo determinado:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;* * * * * bash /home/jair/apollo/deploy/backup.sh&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Verificamos la tarea creada:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crontab -l&lt;/code&gt;&lt;/p&gt;</content><author><name>Miguelns21</name></author><category term="Script" /><category term="Administración" /><category term="Django" /><category term="Python" /><category term="Linux" /><summary type="html">En este post trato de explicar de la forma mas rápida y concisa cómo poner en producción una aplicación en Django en un VPS basado en Linux.</summary></entry><entry><title type="html">Notificaciones en tu propio bot de Telegram</title><link href="http://localhost:4000/notificaciones-en-bot-telegram/" rel="alternate" type="text/html" title="Notificaciones en tu propio bot de Telegram" /><published>2021-09-02T00:00:00+02:00</published><updated>2021-09-02T00:00:00+02:00</updated><id>http://localhost:4000/notificaciones-en-bot-telegram</id><content type="html" xml:base="http://localhost:4000/notificaciones-en-bot-telegram/">&lt;h1 id=&quot;tu-propio-bot-de-notificaciones&quot;&gt;Tu propio bot de notificaciones&lt;/h1&gt;
 &lt;p&gt;Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria.&lt;/p&gt;
 
 &lt;p&gt;Pues bien en este post voy a describir la forma mas sencilla que he encontrado (de momento) para que puedas mandar notificaciones a tu propio bot de Telegram. Si nunca has creado un bot verás que es un proceso en extremo sencillo.&lt;/p&gt;

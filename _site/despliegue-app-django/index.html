@@ -1,0 +1,879 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.15.1 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="es" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>            Despliegue en producción de una aplicación Django - Miguelns21      Cuaderno de bitácora      </title>
+<meta name="description" content="En este post trato de explicar de la forma mas rápida y concisa cómo poner en producción una aplicación en Django en un VPS basado en Linux.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Miguelns21 | Cuaderno de bitácora">
+<meta property="og:title" content="Despliegue en producción de una aplicación Django">
+<meta property="og:url" content="http://localhost:4000/despliegue-app-django/">
+
+
+  <meta property="og:description" content="En este post trato de explicar de la forma mas rápida y concisa cómo poner en producción una aplicación en Django en un VPS basado en Linux.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/despliegue-app-django/python-y-django.jpeg">
+
+
+
+
+
+  <meta property="article:published_time" content="2021-10-01T00:00:00+02:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/despliegue-app-django/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Miguelns21",
+      "url": "http://localhost:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Miguelns21 | Cuaderno de bitácora Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE ]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/masthead.png" alt=""></a>
+                
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/" >Inicio</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/" >Artículos</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/" >Categorías</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/" >Etiquetas</a>
+            </li><li class="masthead__menu-item">
+              <a href="/buscador/" >Buscador</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/" >Contacto</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Alternar menú</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+    
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Inicio</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        <li class="current">Despliegue en producción de una aplicación Django</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/avatar.png" alt="Miguelns21" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Miguelns21</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+        Entusiasta de las tecnologías.
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Seguir</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/miguelns21" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://www.linkedin.com/in/miguelns21" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/miguelns21" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        
+          <li>
+            <a href="https://www.youtube.com/channel/UCZGS76c-ebU0QSOVXuSjKfA" itemprop="sameAs" rel="nofollow noopener noreferrer">
+              <i class="fab fa-fw fa-youtube" aria-hidden="true"></i> YouTube
+            </a>
+          </li>
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Despliegue en producción de una aplicación Django">
+    <meta itemprop="description" content="En este post trato de explicar de la forma mas rápida y concisa cómo poner en producción una aplicación en Django en un VPS basado en Linux.">
+    <meta itemprop="datePublished" content="October 01, 2021">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Despliegue en producción de una aplicación Django
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 minuto(s) de lectura
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p class="page__meta">
+          
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-10-01T00:00:00+02:00">October 01, 2021 </time>&emsp;
+          
+          <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
+
+
+
+
+  5 minuto(s) de lectura
+
+        </p>
+        <p>En este post trato de explicar de la forma mas rápida y concisa cómo poner en producción una aplicación en Django en un VPS basado en Linux.</p>
+
+<p>Tómese este post a modo de chuleta con todos los pasos necesarios para el despliegue: desde la instalación de la aplicación partiendo de un repositorio github, la instalación de postgresql, nginx, supervisor, cortafuegos, gunicorn…</p>
+
+<p>Vamos manos a la obra.</p>
+
+<h2 id="1-crear-un-usuario">1. Crear un usuario</h2>
+
+<p>Usuario bajo el cual se ejecutará nuestra aplicación:</p>
+
+<p><code class="language-plaintext highlighter-rouge">adduser jair</code></p>
+
+<h3 id="dar-privilegios-sudo-al-nuevo-usuario">Dar privilegios sudo al nuevo usuario</h3>
+
+<p>Editar con:</p>
+
+<p><code class="language-plaintext highlighter-rouge">nano /etc/sudoers</code></p>
+
+<p>Y añadir la línea:</p>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/privilegios-usuarios.png" />
+</p>
+
+<h2 id="2-cambiar-el-puerto-ssh-del-servidor">2. Cambiar el puerto ssh del servidor</h2>
+
+<p>Editamos:</p>
+
+<p><code class="language-plaintext highlighter-rouge">nano /etc/ssh/sshd_config</code></p>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/cambio-puerto.jpeg" />
+</p>
+
+<p>Reiniciar ssh:</p>
+
+<p><code class="language-plaintext highlighter-rouge">service ssh restart</code></p>
+
+<h2 id="3-configurar-el-firewall">3. Configurar el firewall</h2>
+
+<p><code class="language-plaintext highlighter-rouge">ufw status</code> –&gt; ver el estado</p>
+
+<p><code class="language-plaintext highlighter-rouge">ufw enable</code> –&gt; activar firewall</p>
+
+<p><code class="language-plaintext highlighter-rouge">ufw allow 22</code> –&gt; permite el paso al puerto 22</p>
+
+<p><code class="language-plaintext highlighter-rouge">ufw allow ssh</code> –&gt; permite ssh independientemente del puerto en el que esté configurado.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ufw status numbered</code> –&gt; lista las reglas con el orden de aplicación.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ufw delete 1</code> –&gt; borra la regla número 1.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ufw disabe</code> –&gt; desactiva el firewall.</p>
+
+<h2 id="4-clonar-repositorio-del-proyecto-django">4. Clonar repositorio del proyecto Django</h2>
+
+<p><code class="language-plaintext highlighter-rouge">https://github.com/andrestvp/ver.git</code></p>
+
+<h2 id="5-preparar-el-entorno-python">5. Preparar el entorno Python</h2>
+
+<h3 id="comprobar-si-se-tiene-instalado-virtualenv">Comprobar si se tiene instalado virtualenv:</h3>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/virtualenv.png" />
+</p>
+
+<p>e instalarlo en su caso:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo apt-get install virtualenv</code></p>
+
+<h3 id="comprobar-si-está-instalado-python">Comprobar si está instalado Python</h3>
+
+<p><code class="language-plaintext highlighter-rouge">python3 --version</code></p>
+
+<h3 id="crear-el-entorno-virtual-en-la-raíz-de-la-aplicación">Crear el entorno virtual en la raíz de la aplicación:</h3>
+
+<p><code class="language-plaintext highlighter-rouge">virtualenv env -ppython3</code></p>
+
+<p>El argumento -p servirá para crear el entorno virtual en python3 aunque tuvieramos instalado también python2.</p>
+
+<p>Activamos el entorno virtual con:</p>
+
+<p><code class="language-plaintext highlighter-rouge">source env/bin/activate</code></p>
+
+<p>Instalamos ahora los requerimientos:</p>
+
+<p><code class="language-plaintext highlighter-rouge">pip install -r requirements.txt</code></p>
+
+<h3 id="preparar-la-aplicación">Preparar la aplicación</h3>
+
+<p><code class="language-plaintext highlighter-rouge">python manage.py makemigrations</code>
+<code class="language-plaintext highlighter-rouge">python manage.py migrate</code>
+<code class="language-plaintext highlighter-rouge">python manage.py createsuperuser</code></p>
+
+<h2 id="6-instalar-postgresql">6. Instalar Postgresql</h2>
+
+<p><code class="language-plaintext highlighter-rouge">sudo apt install postgresql postgresql-contrib</code></p>
+
+<p>Configurar postgresql:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo -u postgres psql</code></p>
+
+<p>Cambiar la contraseña del usuario postgres:</p>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/configuracion-postgresql.png" />
+</p>
+
+<p>Cambiar la codificación de caracteres y la zona horaria:</p>
+
+<p><code class="language-plaintext highlighter-rouge">ALTER ROLE postgres SET client_encoding TO 'utf8';</code>
+<code class="language-plaintext highlighter-rouge">ALTER ROLE postgres SET timezone TO 'UTC';</code></p>
+
+<p>Crear una base de datos:</p>
+
+<p><code class="language-plaintext highlighter-rouge">create database apolo;</code></p>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/database-postgresql.png" />
+</p>
+
+<p>Verificamos en nuestro entorno virtual de python si tenemos instalada la librería de postgresql:</p>
+
+<p><code class="language-plaintext highlighter-rouge">pip list</code></p>
+
+<p>En caso de que no:</p>
+
+<p><code class="language-plaintext highlighter-rouge">pip install psycopg2-binary</code></p>
+
+<p>Cambiamos la configuración del proyecto django a postgresql.</p>
+
+<p><code class="language-plaintext highlighter-rouge">nano config/db.py</code></p>
+
+<p>verificando usuario y contraseña.
+De nuevo haremos migraciones y migrate.</p>
+
+<h2 id="7-crear-un-fichero-bash-para-ejecutar-nuestra-app-python">7. Crear un fichero bash para ejecutar nuestra app python</h2>
+
+<p>Crearemos una carpeta ‘deploy’ en la estructura de nuestra app que contendrá el bash.</p>
+
+<p>Para saber mas sobre bash hay un buen tutorial en <a href="https://bioinf.comav.upv.es/courses/unix/scripts_bash.html">Tutorial Bash</a></p>
+
+<p>El script es ‘server.sh’:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">DJANGODIR</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="si">$(</span><span class="nb">cd</span> <span class="sb">`</span><span class="nb">dirname</span> <span class="nv">$0</span><span class="sb">`</span> <span class="o">&amp;&amp;</span> <span class="nb">pwd</span><span class="si">))</span>
+<span class="nv">DJANGO_SETTINGS_MODULE</span><span class="o">=</span>config.settings
+<span class="nb">cd</span> <span class="nv">$DJANGODIR</span>
+<span class="nb">source env</span>/bin/activate
+<span class="nb">export </span><span class="nv">DJANGO_SETTINGS_MODULE</span><span class="o">=</span><span class="nv">$DJANGO_SETTINGS_MODULE</span>
+<span class="nb">exec </span>python manage.py runserver 0:9000
+</code></pre></div></div>
+
+<h3 id="configurar-supervisor-gestor-de-procesos">Configurar Supervisor (gestor de procesos)</h3>
+
+<p>Se encargará de mantener nuestra aplicación siempre corriendo en nuestro servidor.</p>
+
+<ol>
+  <li>
+    <p>Instalar supervidor
+<code class="language-plaintext highlighter-rouge">apt-get install supervisor</code></p>
+  </li>
+  <li>
+    <p>Crear el siguiente archivo conf en la ruta <em>/etc/supervisor/conf.d/apolo.conf</em></p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[program:apolo]
+command=/home/jair/apolo/deploy/server.sh
+autostart=true
+autorestart=true
+stderr_logfile=/home/jair/apolo/logs/err.log
+stdout_logfile=/home/jair/apolo/logs/out.log
+user=jair
+environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8
+</code></pre></div></div>
+
+<p>Comprobamos ahora si un fichero de supervisor es correcto:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl reread</code></p>
+
+<p>Ahora actualizamos las tareas de supervisor:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl update</code></p>
+
+<p>Podemos ver todo lo que se está ejecutando con supervisor:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl status</code></p>
+
+<p>Para parar el servicio:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl stop apolo</code></p>
+
+<p>Para iniciarlo:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl start apolo</code></p>
+
+<p>Para reiniciar una tarea:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl restart apolo</code></p>
+
+<p>o todas:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl restart all</code></p>
+
+<p>Si hacemos un cambio al script debemos actualizarlo en supervisor:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl update</code></p>
+
+<h2 id="8-configurar-proxy-gunicorn">8. Configurar proxy gunicorn</h2>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/estructura-django.png" />
+</p>
+
+<p>Instalamos en nuestro entorno virtual:</p>
+
+<p><code class="language-plaintext highlighter-rouge">pip install gunicorn</code></p>
+
+<p>Creamos en la carpeta config un fichero settings llamado <em>production.py</em> que añadirá un par de variables a nuestro setting original:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from .settings import *
+ALLOWED_HOSTS = ["192.168.0.9", "midominio.com", "www.midominio.com"]
+DEBUG = False
+</code></pre></div></div>
+
+<p>Editamos el archivo <em>wsgi.py</em> para que apunte al nuevo <em>production.py</em></p>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/wsgi.png" />
+</p>
+
+<p>Para comprobar que está funcionando gunicorn:</p>
+
+<p><code class="language-plaintext highlighter-rouge">gunicorn config.wsgi</code></p>
+
+<p>desde la ruta del programa:</p>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/estado-gunicorn.png" />
+</p>
+
+<p><strong>Importante</strong> gunicorn servirá sobre el puerto 8000 por lo que tendremos que para el supervisor con:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl stop apolo</code></p>
+
+<p>Necesitaremos un fichero bash para que que supervisor levante gunicorn:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nv">NAME</span><span class="o">=</span><span class="s2">"apolo"</span>
+<span class="nv">DJANGODIR</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="si">$(</span><span class="nb">cd</span> <span class="sb">`</span><span class="nb">dirname</span> <span class="nv">$0</span><span class="sb">`</span> <span class="o">&amp;&amp;</span> <span class="nb">pwd</span><span class="si">))</span>
+<span class="nv">SOCKFILE</span><span class="o">=</span>/tmp/gunicorn-apolo.sock
+<span class="nv">LOGDIR</span><span class="o">=</span><span class="k">${</span><span class="nv">DJANGODIR</span><span class="k">}</span>/logs/gunicorn.log
+<span class="nv">USER</span><span class="o">=</span>jair
+<span class="nv">GROUP</span><span class="o">=</span>jair
+<span class="nv">NUM_WORKERS</span><span class="o">=</span>5
+<span class="nv">DJANGO_WSGI_MODULE</span><span class="o">=</span>config.wsgi
+
+<span class="nb">rm</span> <span class="nt">-frv</span> <span class="nv">$SOCKFILE</span>
+
+<span class="nb">echo</span> <span class="nv">$DJANGODIR</span>
+
+<span class="nb">cd</span> <span class="nv">$DJANGODIR</span>
+
+<span class="nb">exec</span> <span class="k">${</span><span class="nv">DJANGODIR</span><span class="k">}</span>/env/bin/gunicorn <span class="k">${</span><span class="nv">DJANGO_WSGI_MODULE</span><span class="k">}</span>:application <span class="se">\</span>
+  <span class="nt">--name</span> <span class="nv">$NAME</span> <span class="se">\</span>
+  <span class="nt">--workers</span> <span class="nv">$NUM_WORKERS</span> <span class="se">\</span>
+  <span class="nt">--user</span><span class="o">=</span><span class="nv">$USER</span> <span class="nt">--group</span><span class="o">=</span><span class="nv">$GROUP</span> <span class="se">\</span>
+  <span class="nt">--bind</span><span class="o">=</span>unix:<span class="nv">$SOCKFILE</span> <span class="se">\</span>
+  <span class="nt">--log-level</span><span class="o">=</span>debug <span class="se">\</span>
+  <span class="nt">--log-file</span><span class="o">=</span><span class="nv">$LOGDIR</span>
+</code></pre></div></div>
+
+<p>Lo llamaremos <em>gunicorn.sh</em> y estará en la carpeta deploy con permisos de ejecución.</p>
+
+<h2 id="9-configurar-web-server">9. Configurar web server</h2>
+
+<p><code class="language-plaintext highlighter-rouge">sudo apt install nginx</code></p>
+
+<p>Si usamos firewall habilitamos nginx:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo ufw allow 'Nginx HTTP'</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo ufw allow 'Nginx HTTPS'</code></p>
+
+<p>Verificamos que está corriendo:</p>
+
+<p><code class="language-plaintext highlighter-rouge">systemctl status nginx</code></p>
+
+<p>En el entorno virtual de python ejecutaremos:</p>
+
+<p><code class="language-plaintext highlighter-rouge">python manage.py collectstatic --link --noinput</code></p>
+
+<p>para organizar todas los recursos estáticos en una sola carpeta pero con enlaces simbólicos (sin ocupar espacio en disco).</p>
+
+<p>Creamos el fichero de nginx en la ruta */etc/nginx/sites-available/apolo.conf’ con el contenido:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>upstream apoloconn <span class="o">{</span>
+    server unix:/tmp/gunicorn-apolo.sock <span class="nv">fail_timeout</span><span class="o">=</span>0<span class="p">;</span>
+<span class="o">}</span>
+
+server <span class="o">{</span>
+    listen 80<span class="p">;</span>
+    server_name www.algorisoftprojects.com algorisoftprojects.com 192.168.0.9<span class="p">;</span>
+
+    access_log /home/jair/apolo/logs/nginx-access.log<span class="p">;</span>
+
+    error_log /home/jair/apolo/logs/nginx-error.log<span class="p">;</span>
+
+    location /media/  <span class="o">{</span>
+        <span class="nb">alias</span> /home/jair/apolo/media/<span class="p">;</span>
+    <span class="o">}</span>
+
+    location /static/ <span class="o">{</span>
+        <span class="nb">alias</span> /home/jair/apolo/staticfiles/<span class="p">;</span>
+    <span class="o">}</span>
+
+    location /static/admin/ <span class="o">{</span>
+        <span class="nb">alias</span> /home/jair/apolo/staticfiles/admin/<span class="p">;</span>
+    <span class="o">}</span>
+
+    location / <span class="o">{</span>
+         proxy_set_header X-Forwarded-For <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+         proxy_set_header Host <span class="nv">$http_host</span><span class="p">;</span>
+         proxy_redirect off<span class="p">;</span>
+         proxy_pass http://apoloconn<span class="p">;</span>
+    <span class="o">}</span>
+
+    error_page 500 502 503 504 /templates/500.html<span class="p">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Habilitamos el sitio haciendo un enlace simbólico:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo ln -s /etc/nginx/sites-available/apolo.conf /etc/nginx/sites_enabled/</code></p>
+
+<p>Comprobamos la configuración creada con:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo nginx -t</code></p>
+
+<p>Cambiamos ahora nuesto <em>apolo.conf</em> de supervisor para que ahora apunto a gunicorn.sh en lugar de a server.sh como lo venía haciendo hasta este momento:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo nano /etc/supervisor/conf.d/apolo.conf</code></p>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/cambio-a-gunicorn.png" />
+</p>
+
+<p>Actualizamos supervisor y reiniciamos nginx:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo supervisorctl update</code>
+<code class="language-plaintext highlighter-rouge">sudo systemctl restart nginx</code></p>
+
+<p>Ahora es recomendable eliminar el puerto 8000 de las reglas del cortafueros:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo ufw status numbered</code></p>
+
+<p align="center">
+<img src="/assets/images/despliegue-app-django/actualizacion-ufw.png" />
+</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo ufw delete 2</code></p>
+
+<h2 id="10-instalar-los-certificados-ssl">10. Instalar los certificados SSL</h2>
+
+<p>Primero instalaremos el software certbot en el servidor:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo apt install certbot python3-certbot-nginx</code></p>
+
+<p>Una vez instalado:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo certbot --nginx -d midominio.com -d www.midominio.com</code></p>
+
+<p>A la pregunta sobre redireccionar http a https contestamos ‘2’ (si).</p>
+
+<p>Actualizamos nuestro cortafuegos:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo ufw allow 'Nginx Full</code>
+<code class="language-plaintext highlighter-rouge">sudo ufw delete allow 'Nginx HTTP</code></p>
+
+<h2 id="11-backup-de-la-base-de-datos">11. Backup de la Base de datos</h2>
+
+<p>Crearemos un script bash para hacer el backup de postgresql:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nb">export </span><span class="nv">FECHA</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> +%d_%m_%Y_%H_%M_%S<span class="sb">`</span>
+<span class="nb">export </span><span class="nv">NAME</span><span class="o">=</span>apolo_<span class="k">${</span><span class="nv">FECHA</span><span class="k">}</span>.dump
+<span class="nb">export </span><span class="nv">DIR</span><span class="o">=</span>/home/jair/backup/
+<span class="nv">USER_DB</span><span class="o">=</span>postgres
+<span class="nv">NAME_DB</span><span class="o">=</span>apolo
+<span class="nb">cd</span> <span class="nv">$DIR</span>
+<span class="o">&gt;</span> <span class="k">${</span><span class="nv">NAME</span><span class="k">}</span>
+<span class="nb">export </span><span class="nv">PGPASSWORD</span><span class="o">=</span>123
+<span class="nb">chmod </span>777 <span class="k">${</span><span class="nv">NAME</span><span class="k">}</span>
+<span class="nb">echo</span> <span class="s2">"procesando la copia de la base de datos"</span>
+pg_dump <span class="nt">-U</span> <span class="nv">$USER_DB</span> <span class="nt">-h</span> localhost <span class="nt">--port</span> 5432 <span class="nt">-f</span> <span class="k">${</span><span class="nv">NAME</span><span class="k">}</span> <span class="nv">$NAME_DB</span>
+<span class="nb">echo</span> <span class="s2">"backup terminado"</span>
+</code></pre></div></div>
+
+<p>Añadimos una tarea a cron:</p>
+
+<p><code class="language-plaintext highlighter-rouge">crontab -e</code></p>
+
+<p>Programamos la tarea en un tiempo determinado:</p>
+
+<p><code class="language-plaintext highlighter-rouge">* * * * * bash /home/jair/apollo/deploy/backup.sh</code></p>
+
+<p>Verificamos la tarea creada:</p>
+
+<p><code class="language-plaintext highlighter-rouge">crontab -l</code></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Etiquetas: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#django" class="page__taxonomy-item" rel="tag">Django</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#linux" class="page__taxonomy-item" rel="tag">Linux</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#python" class="page__taxonomy-item" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categorías: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#administraci%C3%B3n" class="page__taxonomy-item" rel="tag">Administración</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/categories/#script" class="page__taxonomy-item" rel="tag">Script</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Actualizado:</strong> <time datetime="2021-10-01T00:00:00+02:00">October 01, 2021</time></p>
+        
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/notificaciones-en-bot-telegram/" class="pagination--pager" title="Notificaciones en tu propio bot de Telegram
+">Anterior</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Siguiente</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+</div>
+
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Seguir:</strong></li>
+    
+
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Miguelns21</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script data-search-pseudo-elements defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

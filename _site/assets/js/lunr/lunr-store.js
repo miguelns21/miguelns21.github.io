@@ -33,4 +33,9 @@ var store = [{
         "excerpt":"Tu propio bot de notificaciones Si eres programador o administrador de sistemas sabrás que recibir notificaciones unificadas de los servicios que gestiones es siempre una labor muy repetitiva y rutinaria. Pues bien en este post voy a describir la forma mas sencilla que he encontrado (de momento) para que puedas...","categories": ["Script"],
         "tags": ["Telegram","Python"],
         "url": "http://localhost:4000/notificaciones-en-bot-telegram/",
-        "teaser":"http://localhost:4000/assets/images/notificaciones_en_bot_telegram/telegram_portada.png"}]
+        "teaser":"http://localhost:4000/assets/images/notificaciones_en_bot_telegram/telegram_portada.png"},{
+        "title": "Despliegue en producción de una aplicación Django",
+        "excerpt":"En este post trato de explicar de la forma mas rápida y concisa cómo poner en producción una aplicación en Django en un VPS basado en Linux. Tómese este post a modo de chuleta con todos los pasos necesarios para el despliegue: desde la instalación de la aplicación partiendo de...","categories": ["Script","Administración"],
+        "tags": ["Django","Python","Linux"],
+        "url": "http://localhost:4000/despliegue-app-django/",
+        "teaser":"http://localhost:4000/assets/images/despliegue-app-django/python-y-django.jpeg"}]
